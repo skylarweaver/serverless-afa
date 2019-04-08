@@ -1,6 +1,7 @@
 ## Application secrets ##
 stripe-secrets.json
 credentials/*
+config.json
 
 ### Linux ###
 *~

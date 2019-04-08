@@ -1,0 +1,12 @@
+{
+  "name": "AFA Donations",
+  "description": "List of all donations given to AfA",
+  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1mV-3501qIyfNnzGV-kkDaoCq06sBi2rK74WWswua6Bs/edit#gid=0",
+  "spreadsheetId": "1mV-3501qIyfNnzGV-kkDaoCq06sBi2rK74WWswua6Bs",
+  "tables": [
+    {
+      "tableName": "customer_details",
+      "sheetName": "Sheet1"
+    }
+  ]
+}

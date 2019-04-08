@@ -1,0 +1,87 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: serverless-afa
+
+# Configuration variables
+custom:
+  stripe-secrets: ${file(credentials/stripe-secrets.json)}
+  sheet-credentials: ${file(credentials/sheet-credentials.json)}
+  webpack:
+    webpackConfig: ./webpack.config.js # serverless-webpack configuration
+    includeModules: true # Enable auto-packing of external modules
+
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  # profile: personal
+  # region: ap-southeast-1
+  environment:
+    STRIPE_SECRET_KEY: ${self:custom.stripe-secrets.stripeSecretKey} # Stripe secret API key
+    SHEET_CLIENT_ID: ${self:custom.sheet-credentials.installed.client_id} # Sheet client ID 
+    SHEET_CLIENT_SECRET: ${self:custom.sheet-credentials.installed.client_secret} # Sheet Client Secret 
+    SHEET_REDIRECT_URI_1: ${self:custom.sheet-credentials.installed.redirect_uris[0]} # Sheet redirect uri (1 of 2) 
+
+# Use the serverless-webpack plugin to transpile ES6
+plugins:
+  - serverless-webpack
+
+# serverless optimization
+package:
+  individually: true
+
+# The `functions` block defines what code to deploy
+functions:
+  createCharge:
+    handler: functions/createCharge.handler
+    description: Lambda function to send charge to stripe
+    # The `events` block defines how to trigger the handler.createCharge code
+    events:
+      - http:
+          path: charges
+          method: post
+          cors: true
+
+  updateGoogleSheet:
+    handler: functions/updateGoogleSheet.handler
+    description: Lambda function to update Donations Google Spreadsheet
+    # timeout: 900
+    events:
+      - http:
+          path: updateGoogleSheet
+          method: post
+          cors: true
+    # - schedule:
+    #     rate: rate(1 hour)
+    #     enabled: tru
+  getDonationData:
+    handler: functions/getDonationData.handler
+    description: Lambda function to get donation data from Google Sheets 
+    # timeout: 900
+    events:
+      - http:
+          path: getDonationData
+          method: get 
+          cors: true
+    # - schedule:
+    #     rate: rate(1 hour)
+    #     enabled: tru
+  getAllDonationData:
+    handler: functions/getAllDonationData.handler
+    description: Lambda function to get donation data from Google Sheets 
+    # timeout: 900
+    events:
+      - http:
+          path: getAllDonationData 
+          method: get 
+          cors: true
+    # - schedule:
+    #     rate: rate(1 hour)
+    #     enabled: tru

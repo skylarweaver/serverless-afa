@@ -1,0 +1,12 @@
+{
+  "name": "Donation Data",
+  "description": "All donation data is stored here",
+  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1mV-3501qIyfNnzGV-kkDaoCq06sBi2rK74WWswua6Bs/edit#gid=0",
+  "spreadsheetId": "1mV-3501qIyfNnzGV-kkDaoCq06sBi2rK74WWswua6Bs",
+  "tables": [
+    {
+      "tableName": "AFA Donations",
+      "sheetName": "Donations"
+    }
+  ]
+}

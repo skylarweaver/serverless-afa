@@ -72,7 +72,7 @@ async function pingSheet(auth) {
   console.log('Access granted');
 }
 
-fs.readFile('../credentials/sheet-credentials.json', (err, content) => {
+fs.readFile('credentials/sheet-credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Sheets API.
   authorize(JSON.parse(content), pingSheet);

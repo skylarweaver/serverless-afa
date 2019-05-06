@@ -25,9 +25,9 @@ async function getNewToken(oAuth2Client, callback) {
   });
   rl.question('Enter the code from that page here: ', (code) => {
     rl.close();
-    oAuth2Client.getToken(code, async (err, token) => { // TODO test if async breaks getNewToken function
+    oAuth2Client.getToken(code, async (err, newToken) => { // TODO test if async breaks getNewToken function
       if (err) return console.error('Error while trying to retrieve access token', err);
-      oAuth2Client.setCredentials(token);
+      oAuth2Client.setCredentials(newToken);
       // Store the token to disk for later program executions
       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (error) => {
         if (error) console.error(error);
@@ -56,9 +56,9 @@ async function authorize(callback) {
   );
 
   // Check if we have previously stored a token.
-
   if (!token) return getNewToken(oAuth2Client, callback);
   oAuth2Client.setCredentials(token);
+  console.log('token: ', token);
 
   console.log('OAuth Authentication successful!');
   const callbackRes = await callback(oAuth2Client);

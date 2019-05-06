@@ -25,6 +25,7 @@
     "jest": "^20.0.4",
     "lambda-tester": "^3.0.2",
     "nock": "^9.0.13",
+    "serverless-offline": "^4.9.4",
     "serverless-webpack": "^5.2.0",
     "webpack": "^4.29.6",
     "webpack-node-externals": "^1.7.2"

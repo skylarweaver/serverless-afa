@@ -7,7 +7,7 @@ import authorize from '../utils/googleSheetUtility';
 async function getDonationData(auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const getSheetValues = promisify(sheets.spreadsheets.values.get);
-  const range = 'Donations!E2:E999'; // Donation amount column
+  const range = 'Donations!C2:C999'; // Donation amount column
 
   const res = await getSheetValues({
     spreadsheetId: config.spreadsheetId,
@@ -15,7 +15,6 @@ async function getDonationData(auth) {
   });
   return res;
 }
-
 
 export const handler = async (event, context, callback) => {
   console.log('getDonationData handler triggered');
@@ -38,7 +37,7 @@ export const handler = async (event, context, callback) => {
         message: 'Donations data gathered succesfully!',
         sheetStatus,
         sheetStatusText,
-        data,
+        values: data.values,
       }),
     };
     callback(null, response);

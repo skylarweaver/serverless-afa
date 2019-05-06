@@ -4,6 +4,11 @@ const path = require('path');
 module.exports = {
   entry: slsw.lib.entries,
   target: 'node',
+  mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
+  optimization: {
+    minimize: false,
+  },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -21,5 +26,6 @@ module.exports = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '.webpack'),
     filename: '[name].js',
+    sourceMapFilename: '[file].map',
   },
 };

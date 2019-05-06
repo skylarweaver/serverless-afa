@@ -24,7 +24,8 @@ provider:
   # profile: personal
   # region: ap-southeast-1
   environment:
-    STRIPE_SECRET_KEY: ${self:custom.stripe-secrets.stripeSecretKey} # Stripe secret API key
+    STRIPE_TEST_SECRET_KEY: ${self:custom.stripe-secrets.stripeTestSecretKey} # Stripe secret API key
+    STRIPE_LIVE_SECRET_KEY: ${self:custom.stripe-secrets.stripeLiveSecretKey} # Stripe secret API key
     SHEET_CLIENT_ID: ${self:custom.sheet-credentials.installed.client_id} # Sheet client ID 
     SHEET_CLIENT_SECRET: ${self:custom.sheet-credentials.installed.client_secret} # Sheet Client Secret 
     SHEET_REDIRECT_URI_1: ${self:custom.sheet-credentials.installed.redirect_uris[0]} # Sheet redirect uri (1 of 2) 
@@ -32,6 +33,7 @@ provider:
 # Use the serverless-webpack plugin to transpile ES6
 plugins:
   - serverless-webpack
+  - serverless-offline
 
 # serverless optimization
 package:
@@ -73,13 +75,13 @@ functions:
     # - schedule:
     #     rate: rate(1 hour)
     #     enabled: tru
-  getAllDonationData:
-    handler: functions/getAllDonationData.handler
+  getPublicDonationData:
+    handler: functions/getPublicDonationData.handler
     description: Lambda function to get donation data from Google Sheets 
     # timeout: 900
     events:
       - http:
-          path: getAllDonationData 
+          path: getPublicDonationData 
           method: get 
           cors: true
     # - schedule:

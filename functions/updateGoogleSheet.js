@@ -8,13 +8,14 @@ async function updateDonationsSheet(requestBody, auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const updateSheet = promisify(sheets.spreadsheets.values.append);
 
-  const date = requestBody.date;
-  const name = requestBody.name;
-  const email = requestBody.email;
-  const donationAmount = requestBody.donationAmount;
-  const anonymous = requestBody.anonymous;
-  const notes = requestBody.notes;
-  const stripeMode = requestBody.stripeMode;
+  // Cleanse sheet input so no functions can be added
+  const date = requestBody.date.replace('=', '');
+  const name = requestBody.name.replace('=', '');
+  const email = requestBody.email.replace('=', '');
+  const donationAmount = requestBody.donationAmount.replace('=', '');
+  const anonymous = requestBody.anonymous.replace('=', '');
+  const notes = requestBody.notes.replace('=', '');
+  const stripeMode = requestBody.stripeMode.replace('=', '');
 
   const resource = {
     majorDimension: 'ROWS',

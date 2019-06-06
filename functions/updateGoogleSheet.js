@@ -9,18 +9,25 @@ async function updateDonationsSheet(requestBody, auth) {
   const updateSheet = promisify(sheets.spreadsheets.values.append);
 
   // Cleanse sheet input so no functions can be added
+  console.log('date: ', typeof requestBody.date);
   const date = requestBody.date.replace('=', '');
   const name = requestBody.name.replace('=', '');
   const email = requestBody.email.replace('=', '');
+  const street = requestBody.street.replace('=', '');
+  const city = requestBody.city.replace('=', '');
+  const state = requestBody.state.replace('=', '');
+  const zip = requestBody.zip.replace('=', '');
   const donationAmount = requestBody.donationAmount.replace('=', '');
-  const anonymous = requestBody.anonymous.replace('=', '');
+  console.log('donationAmount: ', typeof requestBody.donationAmount);
+  const anonymous = requestBody.anonymous.toString().replace('=', '');
   const notes = requestBody.notes.replace('=', '');
   const stripeMode = requestBody.stripeMode.replace('=', '');
+  console.log('stripeMode: ', typeof requestBody.stripeMode);
 
   const resource = {
     majorDimension: 'ROWS',
     values: [
-      [date, name, donationAmount, notes, anonymous, stripeMode, email],
+      [date, name, donationAmount, notes, anonymous, stripeMode, email, '', street, city, state, zip],
     ],
   };
 
@@ -63,7 +70,7 @@ export const handler = async (event, context, callback) => {
     };
     callback(null, response);
   } catch (e) {
-    console.log(e);
+    console.log('updateGoogleSheet Error', e);
     const response = {
       statusCode: 500,
       headers: {

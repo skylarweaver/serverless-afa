@@ -8,10 +8,9 @@ import authorize from '../utils/googleSheetUtility';
 function filterPublicDonations(donationsArrays) {
   return donationsArrays.map((donationArray) => {
     const newDonationArray = donationArray.slice(0); // Copy array
-    if (donationArray[4] === 'TRUE') { // Donor chose anonymous donation
+    if (donationArray[4] === 'TRUE') { // Donor chose anonymous name
       newDonationArray[1] = 'Anonymous'; // Obscure name
-      newDonationArray[3] = ''; // Obscure notes
-    } else {
+    } else { // Convert last name to last initial
       const splitName = newDonationArray[1].trim().split(' ', 2); // Obscure name
       if (splitName.length > 1) { // If there is more than just first name in name field
         const firstName = splitName[0];
@@ -19,6 +18,9 @@ function filterPublicDonations(donationsArrays) {
         newDonationArray[1] = `${firstName} ${firstLetterOfLastName}.`;
       }
     }
+    if (donationArray[5] === 'TRUE') { // Donor chose anonymous donation notes
+      newDonationArray[3] = ''; // Obscure notes
+    } 
     return newDonationArray;
   });
 }
@@ -26,7 +28,7 @@ function filterPublicDonations(donationsArrays) {
 async function getPublicDonationData(auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const getSheetValues = promisify(sheets.spreadsheets.values.get);
-  const range = 'Donations!A2:F999'; // Donation amount column
+  const range = 'Donations!A2:G999'; // Date	DonorName	DonationAmount	DonationNotes	AnonymousName AnonymousNotes
 
   const res = await getSheetValues({
     spreadsheetId: config.spreadsheetId,

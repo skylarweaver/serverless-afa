@@ -18,16 +18,16 @@ async function updateDonationsSheet(requestBody, auth) {
   const state = requestBody.state.replace('=', '');
   const zip = requestBody.zip.replace('=', '');
   const donationAmount = requestBody.donationAmount.replace('=', '');
-  console.log('donationAmount: ', typeof requestBody.donationAmount);
-  const anonymous = requestBody.anonymous.toString().replace('=', '');
+  const anonymousName = requestBody.anonymousName.toString().replace('=', '');
+  const anonymousNotes = requestBody.anonymous.toString().replace('=', '');
   const notes = requestBody.notes.replace('=', '');
   const stripeMode = requestBody.stripeMode.replace('=', '');
-  console.log('stripeMode: ', typeof requestBody.stripeMode);
 
   const resource = {
     majorDimension: 'ROWS',
     values: [
-      [date, name, donationAmount, notes, anonymous, stripeMode, email, '', street, city, state, zip],
+      [date, name, donationAmount, notes, anonymousName, anonymousNotes, stripeMode, email, '', street, city, state, zip],
+
     ],
   };
 

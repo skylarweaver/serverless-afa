@@ -19,7 +19,7 @@ async function updateDonationsSheet(requestBody, auth) {
   const zip = requestBody.zip.replace('=', '');
   const donationAmount = requestBody.donationAmount.replace('=', '');
   const anonymousName = requestBody.anonymousName.toString().replace('=', '');
-  const anonymousNotes = requestBody.anonymous.toString().replace('=', '');
+  const anonymousNotes = requestBody.anonymousNotes.toString().replace('=', '');
   const notes = requestBody.notes.replace('=', '');
   const stripeMode = requestBody.stripeMode.replace('=', '');
 

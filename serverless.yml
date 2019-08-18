@@ -10,7 +10,8 @@ service: serverless-afa
 # Configuration variables
 custom:
   stripe-secrets: ${file(credentials/stripe-secrets.json)}
-  sheet-credentials: ${file(credentials/sheet-credentials.json)}
+  donation-sheet-credentials: ${file(credentials/donation-sheet-credentials.json)}
+  location-sheet-credentials: ${file(credentials/location-sheet-credentials.json)}
   webpack:
     webpackConfig: ./webpack.config.js # serverless-webpack configuration
     includeModules: true # Enable auto-packing of external modules
@@ -26,9 +27,13 @@ provider:
   environment:
     STRIPE_TEST_SECRET_KEY: ${self:custom.stripe-secrets.stripeTestSecretKey} # Stripe secret API key
     STRIPE_LIVE_SECRET_KEY: ${self:custom.stripe-secrets.stripeLiveSecretKey} # Stripe secret API key
-    SHEET_CLIENT_ID: ${self:custom.sheet-credentials.installed.client_id} # Sheet client ID 
-    SHEET_CLIENT_SECRET: ${self:custom.sheet-credentials.installed.client_secret} # Sheet Client Secret 
-    SHEET_REDIRECT_URI_1: ${self:custom.sheet-credentials.installed.redirect_uris[0]} # Sheet redirect uri (1 of 2) 
+    DONATION_SHEET_CLIENT_ID: ${self:custom.donation-sheet-credentials.installed.client_id} # Sheet client ID 
+    DONATION_SHEET_CLIENT_SECRET: ${self:custom.donation-sheet-credentials.installed.client_secret} # Sheet Client Secret 
+    DONATION_SHEET_REDIRECT_URI_1: ${self:custom.donation-sheet-credentials.installed.redirect_uris[0]} # Sheet redirect uri (1 of 2) 
+    LOCATION_SHEET_CLIENT_ID: ${self:custom.location-sheet-credentials.installed.client_id} # Sheet client ID 
+    LOCATION_SHEET_CLIENT_SECRET: ${self:custom.location-sheet-credentials.installed.client_secret} # Sheet Client Secret 
+    LOCATION_SHEET_REDIRECT_URI_1: ${self:custom.location-sheet-credentials.installed.redirect_uris[0]} # Sheet redirect uri (1 of 2) 
+
 
 # Use the serverless-webpack plugin to transpile ES6
 plugins:
@@ -83,6 +88,18 @@ functions:
       - http:
           path: getPublicDonationData 
           method: get 
+          cors: true
+    # - schedule:
+    #     rate: rate(1 hour)
+    #     enabled: tru
+  updateLocationSheet:
+    handler: functions/updateLocationSheet.handler
+    description: Lambda function to update Locations Google Spreadsheet
+    # timeout: 900
+    events:
+      - http:
+          path: updateLocationSheet
+          method: post
           cors: true
     # - schedule:
     #     rate: rate(1 hour)

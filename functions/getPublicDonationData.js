@@ -1,12 +1,13 @@
 /* eslint-disable consistent-return */
 import { google } from 'googleapis';
 import { promisify } from 'util';
-import config from '../config.json';
-import authorize from '../utils/googleSheetUtility';
+import config from '../config-donation.json';
+import authorize from '../utils/googleSheetUtility-donation';
 
 // Takes array of all public data and filters based on anonymity desire
 function filterPublicDonations(donationsArrays) {
   return donationsArrays.map((donationArray) => {
+    if (donationArray.length < 6) return []; // If empty cells or skipped row
     const newDonationArray = donationArray.slice(0); // Copy array
     if (donationArray[4] === 'TRUE') { // Donor chose anonymous name
       newDonationArray[1] = 'Anonymous'; // Obscure name

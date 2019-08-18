@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 import { google } from 'googleapis';
 import { promisify } from 'util';
-import config from '../config.json';
-import authorize from '../utils/googleSheetUtility';
+import config from '../config-donation.json';
+import authorize from '../utils/googleSheetUtility-donation';
 
 async function getDonationData(auth) {
   const sheets = google.sheets({ version: 'v4', auth });

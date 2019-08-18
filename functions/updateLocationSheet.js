@@ -1,40 +1,35 @@
 /* eslint-disable consistent-return */
 import { google } from 'googleapis';
 import { promisify } from 'util';
-import config from '../config-donation.json';
-import authorize from '../utils/googleSheetUtility-donation';
+import config from '../config-location.json';
+import authorize from '../utils/googleSheetUtility-location';
 
-async function updateDonationsSheet(requestBody, auth) {
+async function updateLocationsSheet(requestBody, auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const updateSheet = promisify(sheets.spreadsheets.values.append);
 
   // Cleanse sheet input so no functions can be added
-  console.log('date: ', typeof requestBody.date);
-  const date = requestBody.date.replace('=', '');
-  const name = requestBody.name.replace('=', '');
-  const email = requestBody.email.replace('=', '');
-  const street = requestBody.street.replace('=', '');
-  const city = requestBody.city.replace('=', '');
-  const state = requestBody.state.replace('=', '');
-  const zip = requestBody.zip.replace('=', '');
-  const donationAmount = requestBody.donationAmount.replace('=', '');
-  const anonymousName = requestBody.anonymousName.toString().replace('=', '');
-  const anonymousNotes = requestBody.anonymousNotes.toString().replace('=', '');
-  const notes = requestBody.notes.replace('=', '');
-  const stripeMode = requestBody.stripeMode.replace('=', '');
+  console.log('date: ', requestBody.date);
+  const date = requestBody.date.toString().replace('=', '');
+  const lat = requestBody.lat.toString().replace('=', '');
+  const long = requestBody.long.toString().replace('=', '');
+  const speed = requestBody.speed.toString().replace('=', '');
+  const alt = requestBody.alt.toString().replace('=', '');
+  const temp = requestBody.temp.toString().replace('=', '');
+  const head = requestBody.head.toString().replace('=', '');
+
 
   const resource = {
     majorDimension: 'ROWS',
     values: [
-      [date, name, donationAmount, notes, anonymousName, anonymousNotes, stripeMode, email, '', street, city, state, zip],
-
+      [date, lat, long, speed, alt, temp, head],
     ],
   };
 
   const res = await updateSheet({
     spreadsheetId: config.spreadsheetId,
     resource,
-    range: 'Donations',
+    range: 'Locations',
     valueInputOption: 'USER_ENTERED',
   });
   return res;
@@ -42,7 +37,7 @@ async function updateDonationsSheet(requestBody, auth) {
 
 
 export const handler = async (event, context, callback) => {
-  console.log('UpdateGoogleSheet handler triggered');
+  console.log('updateLocationSheet handler triggered');
   const requestBody = JSON.parse(event.body);
   console.log('requestBody: ', requestBody);
 
@@ -52,7 +47,7 @@ export const handler = async (event, context, callback) => {
     // if (!content) return console.log('Error loading client secret file');
     // Authorize a client with credentials, then call the Google Sheets API.
     const sheetResponse = await authorize(
-      auth => updateDonationsSheet(requestBody, auth),
+      auth => updateLocationsSheet(requestBody, auth),
     );
 
     const { sheetStatus, sheetStatusText, data } = sheetResponse;
@@ -62,7 +57,7 @@ export const handler = async (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        message: 'Donations sheet updated succesfully!',
+        message: 'Locations sheet updated succesfully!',
         sheetStatus,
         sheetStatusText,
         data,
@@ -81,5 +76,5 @@ export const handler = async (event, context, callback) => {
     callback(null, response);
   }
 
-  console.log('UpdateGoogleSheet handler ended');
+  console.log('updateLocationSheet handler ended');
 };

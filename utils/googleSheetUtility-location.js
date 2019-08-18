@@ -1,7 +1,7 @@
 import fs from 'fs';
 import readline from 'readline';
 import { google } from 'googleapis';
-import token from '../token.json';
+import token from '../token-location.json';
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
@@ -46,9 +46,9 @@ async function getNewToken(oAuth2Client, callback) {
  * @param {function} callback The callback to call with the authorized client.
  */
 async function authorize(callback) {
-  const clientSecret = process.env.SHEET_CLIENT_ID;
-  const clientId = process.env.SHEET_CLIENT_SECRET;
-  const redirectUri = process.env.SHEET_REDIRECT_URI_1;
+  const clientSecret = process.env.DONATION_SHEET_CLIENT_ID;
+  const clientId = process.env.DONATION_SHEET_CLIENT_SECRET;
+  const redirectUri = process.env.DONATION_SHEET_REDIRECT_URI_1;
   const oAuth2Client = new google.auth.OAuth2(
     clientSecret,
     clientId,
@@ -56,7 +56,7 @@ async function authorize(callback) {
   );
 
   // Check if we have previously stored a token.
-  if (!token) return getNewToken(oAuth2Client, callback);
+  if (!token) console.log('Token has expired! Need to run the getNewToken file');
   oAuth2Client.setCredentials(token);
   console.log('token: ', token);
 

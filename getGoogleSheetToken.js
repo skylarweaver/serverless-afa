@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 // Run this function w/ `node getGoogleSheetToken` and ensure sheet-crednentials.json is up ot date.
-
+// Change line 75 for correct file
 
 const fs = require('fs');
 const readline = require('readline');
@@ -72,7 +72,8 @@ async function pingSheet(auth) {
   console.log('Access granted');
 }
 
-fs.readFile('credentials/sheet-credentials.json', (err, content) => {
+// Update this line to specify sheet
+fs.readFile('credentials/location-sheet-credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Sheets API.
   authorize(JSON.parse(content), pingSheet);

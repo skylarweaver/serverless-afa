@@ -1,10 +1,10 @@
-[![AFA LOGO](./readme-header.png)](https://projectafa.org)
+[![AFA LOGO](./_misc/readme-header.png)](https://projectafa.org)
 
 <!-- [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/skylarweaver/front-end-afa/blob/release/production/LICENSE) -->
 
 # Adventures for Alopecia: Serverless Backend
 
-## What is Adventures for Alopecia?
+## What is Adventures for Alopecia? :motorcycle::dash::dash:
 
 [Adventures for Alopecia](https://projectafa.org) (Project AFA) is a 501(c)(3) nonprofit organization supporting children and adults living with Alopecia. We achieve our mission through three main program areas: support, awareness, and research.
 
@@ -14,6 +14,10 @@
 
 
 After Skylar's inaugural Adventure for Alopecia, Project AFA will use donations to sponsor adventures for other Alopecians to regain their confidence through adventure and travel.
+
+## What is this repo?
+
+Here lies the backend source code for AFA's web presence. For more information on the project, tech stack, and more, visit the (front-end repo)[https://github.com/skylarweaver/front-end-afa].
 
 ### Credits
 - Developed and maintained by (Skylar Weaver)[https://github.com/skylarweaver]

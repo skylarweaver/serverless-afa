@@ -104,3 +104,15 @@ functions:
     # - schedule:
     #     rate: rate(1 hour)
     #     enabled: tru
+  getLocationData:
+    handler: functions/getLocationData.handler
+    description: Lambda function to get donation data from Google Sheets 
+    # timeout: 900
+    events:
+      - http:
+          path: getLocationData 
+          method: get 
+          cors: true
+    # - schedule:
+    #     rate: rate(1 hour)
+    #     enabled: tru

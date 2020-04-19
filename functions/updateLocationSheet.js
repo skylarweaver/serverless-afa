@@ -6,10 +6,10 @@ import authorize from '../utils/googleSheetUtility-location';
 
 async function updateLocationsSheet(requestBody, auth) {
   const sheets = google.sheets({ version: 'v4', auth });
-  const updateSheet = promisify(sheets.spreadsheets.values.append);
+  const appendSheet = promisify(sheets.spreadsheets.values.append);
+  const updateSheet = promisify(sheets.spreadsheets.values.update);
 
   // Cleanse sheet input so no functions can be added
-  console.log('date: ', requestBody.date);
   const date = requestBody.date.toString().replace('=', '');
   const lat = requestBody.lat.toString().replace('=', '');
   const long = requestBody.long.toString().replace('=', '');
@@ -26,13 +26,19 @@ async function updateLocationsSheet(requestBody, auth) {
     ],
   };
 
-  const res = await updateSheet({
+  const appendSheetRes = await appendSheet({
     spreadsheetId: config.spreadsheetId,
     resource,
     range: 'Locations',
     valueInputOption: 'USER_ENTERED',
   });
-  return res;
+  await updateSheet({
+    spreadsheetId: config.spreadsheetId,
+    resource,
+    range: 'MostRecentLocation!A2:G2',
+    valueInputOption: 'USER_ENTERED',
+  });
+  return appendSheetRes;
 }
 
 

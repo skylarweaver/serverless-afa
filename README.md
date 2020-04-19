@@ -17,7 +17,7 @@ After Skylar's inaugural Adventure for Alopecia, Project AFA will use donations 
 
 ## What is this repo?
 
-Here lies the backend source code for AFA's web presence. For more information on the project, tech stack, and more, visit the (front-end repo)[https://github.com/skylarweaver/front-end-afa].
+Here lies the backend source code for AFA's web presence. For more information on the project, tech stack, and more, visit the [front-end repp](https://github.com/skylarweaver/front-end-afa).
 
 ### Credits
-- Developed and maintained by (Skylar Weaver)[https://github.com/skylarweaver]
+- Developed and maintained by [Skylar Weaver](https://github.com/skylarweaver)
